@@ -18,19 +18,16 @@ RUN mkdir -p "$CATALINA_HOME" && \
 # Remove unneeded apps and files to make it lightweight
 RUN rm -rf "$CATALINA_HOME/webapps/"*
 
-# Copy configurations (server.xml, web.xml, etc) if you have any custom configurations
-# COPY config/ $CATALINA_HOME/conf/
-
 # Copy necessary files from your project directory
 COPY target/ $CATALINA_HOME/webapps/
 COPY setenv.sh $CATALINA_HOME/bin/
 COPY entrypoint.sh /entrypoint.sh
 
-# Make sure scripts in the bin directory are executable
+# Make sure scripts are executable
 RUN chmod +x $CATALINA_HOME/bin/* && \
     chmod +x /entrypoint.sh
 
-# Expose port (Heroku will ignore this, but it's good documentation)
+# Expose port
 EXPOSE 8080
 
 # Start Tomcat
